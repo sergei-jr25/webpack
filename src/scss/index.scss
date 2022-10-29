@@ -1,13 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-// @import "~normalize.css";
-@import  '@csstools/normalize.css';
+@import "~normalize.css";
 
-
-@import "./header";
-@import "./toolbar";
-@import "./formula";
-@import "./table";
-@import "./dashboard";
+@import "header";
+@import "toolbar";
+@import "formula";
+@import "table";
+@import "dashboard";
 
 * {
   margin: 0;
@@ -27,6 +25,5 @@ body {
   max-width: 100%;
   font-size: .8rem;
 }
-
 
 
