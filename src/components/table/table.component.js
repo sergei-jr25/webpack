@@ -3,19 +3,30 @@ const CODES = {
    Z: 90
 }
 
-const createCell = () => {
+const createCell = (_, index) => {
    return `
-   <div class="cell"> </div>`
+   <div data-col="${index}" class="cell"> </div>`
 }
 
-export const createColumn = (el) => {
-   return `<div class="column"> ${el}</div>`
+export const createColumn = (el, index) => {
+   console.log(index);
+   return `
+      <div data-type="resizable" data-col="${index}" class="column"> 
+       ${el}
+      <div class="column__resize" data-resize="col"></div>
+   </div>`
 }
 
 export const createRow = (index, cols) => {
-   return `<div class="row">
-      <div class="row-info">${index ? index : ''}</div>
-      <div class="row-data">${cols}</div> 
+   // eslint-disable-next-line max-len
+   const resize = index ? `<div data-resize="row" class="row-data__resize"></div>` : ''
+
+
+   return `<div data-type="resizable"  class="row ">
+      <div  class="row-info">${index ? index : ''}
+       ${resize}
+      </div>
+      <div class="row-data">  ${cols}</div>
    </div>`
 }
 
@@ -25,18 +36,17 @@ export const createTable = (rowsCount = 15) => {
    // Формируем массив букв
    const cols = new Array(colsCount).fill('')
       .map((_, index) => String.fromCharCode(CODES.A + index))
-      .map(el => createColumn(el))
+      .map(createColumn)
       .join('')
    rows.push(createRow(null, cols))
 
    for (let index = 0; index < rowsCount; index++) {
       const cell = new Array(colsCount).fill('')
          .map((_, index) => index)
-         .map(el => createCell(el))
+         .map(createCell)
          .join('')
       rows.push(createRow(index + 1, cell))
    }
-
 
    return rows.join('')
 }

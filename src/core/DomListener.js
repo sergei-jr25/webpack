@@ -17,7 +17,8 @@ export class DomListener {
          // Вешаем события на все слушатели сразу.
          // Bode самое что и addEventListener
          if (!this[method]) {
-            throw new Error(`error is not find  ${method}`)
+            throw new Error(` Method ${method} is not implemented in 
+            ${this.name} Component`)
          }
          this[method] = this[method].bind(this) // Привязываем контекст
          this.$root.on(listener, this[method])

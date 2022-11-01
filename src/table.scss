@@ -14,9 +14,11 @@
     flex-direction: row;
     min-height: 20px;
     height: $row-height;
+ 
   }
 
   .row-info {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,9 +31,25 @@
 
   .row-data {
     display: flex;
+    &__resize {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 100vw;
+      height: 4px;
+      background-color:blue;
+      opacity: 0;
+      z-index: 999;
+      // transition: opacity 0.3s  ease-out;
+      cursor: col-resize;
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 
   .column {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,6 +60,21 @@
     border-top: 0;
     border-left: 0;
     height: 100%;
+    &__resize {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 4px;
+      height: 100vh;
+      background-color:blue;
+      opacity: 0;
+      z-index: 3;
+      // transition: opacity 0.3s  ease-out;
+      cursor: col-resize;
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 
   .cell {
