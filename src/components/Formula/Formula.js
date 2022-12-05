@@ -1,21 +1,59 @@
+import { $ } from "../../core/Dom";
 import { ExelComponent } from "../../core/ExelComponnet";
 
 export class Formula extends ExelComponent {
    static className = 'exel__formula'
-   constructor($root) {
+   constructor($root, options) {
       super($root, {
          name: "Formula",
-         listeners: ['input', 'click']
+         listeners: ['input', 'click', 'keydown'],
+         subscribe: ['currentText'],
+         ...options
       })
    }
    toHTML() {
-      return `<h1>Formula</h1>`
+      return `
+      <div class="excel__formula">
+        <div class="info">fx</div>
+        <div id="input" class="input" contenteditable spellcheck="false">
+         </div>
+      </div>
+      `
    }
+
+   init() {
+      super.init()
+      this.$formula = this.$root.find('#input')
+      this.$on('table:select', $cell => {
+         // console.log(this.$formula.texContent = this.$el.$cell.data.value);
+         this.$formula.text($cell.data.value)
+      })
+      // this.$subscribe(state => {
+      //    this.$formula.text(state.currentText)
+      // })
+      // this.$on('input:Formula', $cell => {
+      //    this.$formula.text($cell.text())
+      // })
+      // this.storeChanged()
+   }
+
+   storeChanged({ currentText }) {
+      this.$formula.text(currentText)
+   }
+
    onInput(event) {
-      console.log(this.$root); // Чтобы получить root нужен привязать контекст
-      console.log('Formula', event.target.value);
+      const text = $(event.target).text()
+      this.$emit('Formula:value', text)
    }
    onClick(event) {
-      console.log(`click ${event}`);
+      // console.log(`click ${event}`);
+   }
+
+   onKeydown(event) {
+      const keys = ['Tab', 'Enter']
+      if (keys.includes(event.key)) {
+         event.preventDefault()
+         this.$emit('formula:done')
+      }
    }
 }

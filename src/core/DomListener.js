@@ -13,7 +13,6 @@ export class DomListener {
    initDOMListener() {
       this.listeners.forEach(listener => {
          const method = getMethodName(listener)
-         console.log(method);
          // Вешаем события на все слушатели сразу.
          // Bode самое что и addEventListener
          if (!this[method]) {

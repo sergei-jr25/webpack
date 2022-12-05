@@ -14,7 +14,6 @@ class Dom {
          // Очисчтим HTML 
          return this
       }
-      // debugger
       return this.$el.OuterHTML
    }
    clear() {
@@ -52,6 +51,19 @@ class Dom {
    findAll(selector) {
       return this.$el.querySelectorAll(selector)
    }
+   find(selector) {
+      return $(this.$el.querySelector(selector))
+   }
+   addStyle(style) {
+      return this.$el.classList.add(style)
+   }
+   removeStyle(style) {
+      return this.$el.classList.remove(style)
+   }
+   focus() {
+      this.$el.focus()
+      return this
+   }
 
    css(styles = {}) {
       Object.keys(styles).forEach(key => {
@@ -59,6 +71,45 @@ class Dom {
          // console.log(styles[key]);
          this.$el.style[key] = styles[key]
       })
+   }
+
+   id(parse) {
+      if (parse) {
+         const parsed = this.id().split(':')
+         console.log(parsed);
+         return {
+            row: +parsed[0],
+            col: +parsed[1]
+         }
+      }
+      return this.data.id
+   }
+
+   text(text) {
+      if (typeof text !== 'undefined') {
+         this.$el.textContent = text
+         this.$el.value = text
+         return this
+      }
+      if (this.$el.tagName.toLowerCase() === 'input') {
+         return this.$el.value.trim()
+      }
+      return this.$el.textContent.trim()
+   }
+
+   getStyles(styles = []) {
+      return styles.reduce((res, style) => {
+         res[style] = this.$el.style[style]
+         return res
+      }, {})
+   }
+
+   attr(name, value) {
+      if (value) {
+         this.$el.setAttribute(name, value)
+         return this
+      }
+      return this.$el.getAttribute(name)
    }
 }
 
